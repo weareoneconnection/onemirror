@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model MirrorResult {
+  id               String   @id
+  inputText        String   @db.Text
+  normalizedInput  String   @db.Text
+  worldType        String   @db.VarChar(64)
+  summary          String   @db.Text
+  shockLine        String   @db.Text
+  consequencesJson String   @db.Text
+  trustScore       Int
+  cooperationScore Int
+  empathyScore     Int
+  stabilityScore   Int
+  conflictScore    Int
+  opennessScore    Int
+  extractionScore  Int
+  longTermismScore Int
+  source           String?  @db.VarChar(64)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([createdAt(sort: Desc)])
+  @@index([worldType])
+  @@map("mirror_results")
+}
